@@ -2,7 +2,7 @@
 Welcome to the CockroachDB Global User Database Challenge! In this 1 hour challenge, you will configure a multi-region user database that demonstrates data locality and regional survivability.
 
 
-## Prize 💵 
+## Prize 💵
 - First Place: $200 USD
 - Second Place: $100 USD
 
@@ -172,8 +172,8 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
 
 
 ## Submission Requirements
-1. Create a GitHub repository with:
-   * README with screenshots showing SQL commands and outputs for:
+1. Create a GitHub repository with a README
+   * Include screenshots showing SQL commands and outputs for:
      * Regional by row tables
      * Regional tables
      * Global tables
