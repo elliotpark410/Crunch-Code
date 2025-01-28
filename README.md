@@ -173,7 +173,7 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
 
 ## Submission Requirements
 1. Create a GitHub repository with a README
-   * Include screenshots showing SQL commands and outputs for:
+   * Include screenshots showing SQL commands and outputs verifying:
      * Regional by row tables
      * Regional tables
      * Global tables
