@@ -85,6 +85,8 @@ Wait 30 minutes for the cluster to provision
     <img src="screenshots/SQL_User.png" width="500" alt="SQL User">
 </kbd>
 
+<br>
+
 3. **Network Configuration**:
    - Go to CockroachDB Console → Networking
    - Create a network name and add your current network
@@ -94,12 +96,16 @@ Wait 30 minutes for the cluster to provision
     <img src="screenshots/Add_Network.png" width="500" alt="Add Network">
 </kbd>
 
+<br>
+
 ### 2. Database Setup
 Access the SQL Shell in CockroachDB Console:
 
 <kbd>
     <img src="screenshots/SQL_Shell.png" width="600" alt="SQL Shell">
 </kbd>
+
+<br>
 
 Execute the following commands to set up your database:
 
