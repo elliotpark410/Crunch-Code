@@ -1,9 +1,11 @@
 # Crunch & Code: CockroachDB Global User Database Challenge 🌎
-Welcome to the CockroachDB Global User Database Challenge! In this 1 hour challenge, you will configure a multi-region user database that demonstrates data locality and regional survivability.
+Welcome to the CockroachDB Global User Database Challenge!
+
+The objective is to configure a multi-region user database that demonstrates data locality and regional survivability.
 
 
 ## Prize 💵
-**$300 USD** for the winner
+**$300 USD** for the highest score.
 
 ## Challenge Overview
 Transform a user database into a global system by implementing data locality that:
@@ -21,8 +23,8 @@ Transform a user database into a global system by implementing data locality tha
 ## Getting Started
 
 ### 1. Initial Setup
-1. Create a Github repository named "CockroachDB-<em>First and Last Name Initial</em>."
-    - e.g. The name is Joe Smith. Github Repo is "CockroachDB-JS"
+1. Create a Github repository named "CockroachDB-<em>First and Last Initial</em>."
+    - e.g. Joe Smith's Github Repo is "CockroachDB-JS"
 2. Create a [CockroachDB Cloud](https://cockroachlabs.cloud/) **Advanced** account
    - Trial includes $400 in credits
 
@@ -197,10 +199,10 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
 
 ## The Challenge 💻
 * Configure [REGIONAL BY ROW](https://www.cockroachlabs.com/docs/stable/regional-tables#regional-by-row-tables) locality in `regional_by_row_users` table
-* Configure [REGIONAL BY TABLE](https://www.cockroachlabs.com/docs/stable/regional-tables#regional-tables) locality in `regional_users` tables
-* Configure [GLOBAL](https://www.cockroachlabs.com/docs/stable/global-tables) table locality in `global_users` tables
+* Configure [REGIONAL TABLE](https://www.cockroachlabs.com/docs/stable/regional-tables#regional-tables) locality in `regional_users` tables
+* Configure [GLOBAL](https://www.cockroachlabs.com/docs/stable/global-tables) locality in `global_users` tables
 * Implement [REGIONAL SURVIVABILITY](https://www.cockroachlabs.com/docs/stable/multiregion-survival-goals) for `users` database
-* Create indexes by city for query optimization
+* Create [INDEXES](https://www.cockroachlabs.com/docs/stable/create-index) by city for query optimization
 * Any other optimizations (optional)
 
 ## Submission Requirements
@@ -213,7 +215,7 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
      * Indexes
      * Other optimizations (optional)
 2. Email your Github repository to: [ben.sherrill@cockroachlabs.com](mailto:ben.sherrill@cockroachlabs.com)
-3. Delete your cluster after submission
+3. Delete CockroachDB cluster after submission
 
 ## Judging Criteria
 Total: 100 points
