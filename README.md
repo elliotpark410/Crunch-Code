@@ -37,7 +37,9 @@ Transform a user database into a global system by implementing data locality tha
 ### 1. Cluster Configuration
 Set up a [CockroachDB Cloud](https://cockroachlabs.cloud/) **Advanced** account with the following specifications. It takes ~30 minutes to provision the cluster:
 
-<img src="screenshots/CockroachDB_Advanced.png" width="400" height="600" alt="CockroachDB Advanced" style="border: 1px solid black;">
+<kbd>
+    <img src="screenshots/CockroachDB_Advanced.png" width="400" height="600" alt="CockroachDB Advanced">
+</kbd>
 
 #### Cloud Provider:
 AWS
@@ -47,42 +49,52 @@ AWS
 - Tokyo, Japan
 - North Virginia, USA
 
-<img src="screenshots/Cloud_Regions.png" width="600" alt="Cloud & Regions" style="border: 1px solid black;">
+<kbd>
+    <img src="screenshots/Cloud_Regions.png" width="600" alt="Cloud & Regions">
+</kbd>
 
 #### Hardware Specifications
 - Compute per node: 4 vCPU & 16 GB RAM
 - Storage per node: 35 GiB
 
-<img src="screenshots/Capacity.png" width="600" alt="Capacity" style="border: 1px solid black;">
+<kbd>
+    <img src="screenshots/Capacity.png" width="600" alt="Capacity">
+</kbd>
 
 #### Security
 - Select "Do not include additional security features"
 
-<img src="screenshots/Security.png" width="600" alt="Security" style="border: 1px solid black;">
-
+<kbd>
+    <img src="screenshots/Security.png" width="600" alt="Security">
+</kbd>
 
 #### Accessing
 1. **Cluster Provisioning**:
 Wait 30 minutes for the cluster to build
 
 2. **SQL User Setup**:
-   - Navigate to CockroachDB Console → SQL Users
+   - Go to CockroachDB Console → SQL Users
    - Create and save SQL user credentials
 
- <img src="screenshots/SQL_User.png" width="500" alt="SQL User" style="border: 1px solid black;">
+<kbd>
+    <img src="screenshots/SQL_User.png" width="500" alt="SQL User">
+</kbd>
 
 3. **Network Configuration**:
    - Go to CockroachDB Console → Networking
    - Create a network name and add your current network
    - Enable access for DB Console and CockroachDB Client
 
- <img src="screenshots/Add_Network.png" width="500" alt="Add Network" style="border: 1px solid black;">
+<kbd>
+    <img src="screenshots/Add_Network.png" width="500" alt="Add Network">
+</kbd>
 
 ### 2. Database Setup
 Access the SQL Shell in CockroachDB Console:
 
-<img src="screenshots/SQL_Shell.png" width="600" alt="SQL Shell" style="border: 1px solid black;">
-
+<kbd>
+    <img src="screenshots/SQL_Shell.png" width="600" alt="SQL Shell">
+</kbd>
 
 Execute the following commands to set up your database:
 
@@ -185,8 +197,8 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
 * Configure regional tables in `regional_users`
 * Configure global tables in `global_users`
 * Implement regional survivability for `users` database
-* (Optional) Create performance-enhancing indexes
-
+* Create indexes for query optimization
+* Any other optimizations (optional)
 
 ## Submission Requirements
 1. Create a GitHub repository with a README
@@ -195,7 +207,8 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
      * Regional tables
      * Global tables
      * Regional survivability
-     * Performance indexes (optional)
+     * Indexes
+     * Other optimizations (optional)
 2. Email your Github repository to: [ben.sherrill@cockroachlabs.com](mailto:ben.sherrill@cockroachlabs.com)
 3. Delete your cluster after submission
 
