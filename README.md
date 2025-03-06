@@ -70,7 +70,7 @@ AWS
 
 #### Accessing
 1. **Cluster Provisioning**:
-Wait 30 minutes for the cluster to build
+Wait 30 minutes for the cluster to provision
 
 2. **SQL User Setup**:
    - Go to CockroachDB Console → SQL Users
