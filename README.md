@@ -193,9 +193,9 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
 ```
 
 ## The Challenge 💻
-* Configure regional by row tables in `regional_by_row_users`
-* Configure regional tables in `regional_users`
-* Configure global tables in `global_users`
+* Configure `REGIONAL BY ROW` locality in `regional_by_row_users` table
+* Configure `REGIONAL BY TABLE` locality in `regional_users` tables
+* Configure `GLOBAL` table locality in `global_users` tables
 * Implement regional survivability for `users` database
 * Create indexes for query optimization
 * Any other optimizations (optional)
