@@ -21,13 +21,16 @@ Transform a user database into a global system by implementing data locality tha
 ## Getting Started
 
 ### 1. Initial Setup
-1. Create a Github repository named "Crunch-Code"
+1. Create a Github repository named "CockroachDB-<em>First and Last Name Initial</em>."
+    - e.g. The name is Joe Smith. Github Repo is "CockroachDB-JS"
 2. Create a [CockroachDB Cloud](https://cockroachlabs.cloud/) **Advanced** account
    - Trial includes $400 in credits
 
 ### 2. Useful Documentation
 - [CockroachDB Quickstart Guide](https://www.cockroachlabs.com/docs/cockroachcloud/quickstart)
 - [Table Localities Documentation](https://www.cockroachlabs.com/docs/stable/table-localities)
+- [Regional Tables](https://www.cockroachlabs.com/docs/stable/regional-tables)
+- [Global Tables](https://www.cockroachlabs.com/docs/stable/global-tables)
 - [Multi-Region Survival Goals](https://www.cockroachlabs.com/docs/stable/multiregion-survival-goals)
 - [EXPLAIN ANALYZE Documentation](https://www.cockroachlabs.com/docs/stable/explain-analyze)
 
@@ -193,10 +196,10 @@ INSERT INTO regional_by_row_users (name, email, city) VALUES
 ```
 
 ## The Challenge 💻
-* Configure `REGIONAL BY ROW` locality in `regional_by_row_users` table
-* Configure `REGIONAL BY TABLE` locality in `regional_users` tables
-* Configure `GLOBAL` table locality in `global_users` tables
-* Implement regional survivability for `users` database
+* Configure [REGIONAL BY ROW](https://www.cockroachlabs.com/docs/stable/regional-tables#regional-by-row-tables) locality in `regional_by_row_users` table
+* Configure [REGIONAL BY TABLE](https://www.cockroachlabs.com/docs/stable/regional-tables#regional-tables) locality in `regional_users` tables
+* Configure [GLOBAL](https://www.cockroachlabs.com/docs/stable/global-tables) table locality in `global_users` tables
+* Implement [REGIONAL SURVIVABILITY](https://www.cockroachlabs.com/docs/stable/multiregion-survival-goals) for `users` database
 * Create indexes by city for query optimization
 * Any other optimizations (optional)
 
