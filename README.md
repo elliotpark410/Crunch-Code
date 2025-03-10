@@ -25,7 +25,7 @@ Transform a user database into a global system by implementing data locality tha
 ### 1. Initial Setup
 1. Create a Github repository named "CockroachDB-<em>First and Last Initial</em>."
     - e.g. Joe Smith's Github Repo is "CockroachDB-JS"
-2. Create a [CockroachDB Cloud](https://cockroachlabs.cloud/) **Advanced** account
+2. Create a [CockroachDB Cloud](https://cockroachlabs.cloud/) account
    - Trial includes $400 in credits
 
 ### 2. Useful Documentation
@@ -40,42 +40,34 @@ Transform a user database into a global system by implementing data locality tha
 ## Setup
 
 ### 1. Cluster Configuration
-Set up a [CockroachDB Cloud](https://cockroachlabs.cloud/) **Advanced** account with the following specifications. It takes ~30 minutes to provision the cluster:
+Set up a [CockroachDB Cloud](https://cockroachlabs.cloud/) **Standard** cluster. It takes ~5 minutes to provision the cluster:
 
 <kbd>
-    <img src="screenshots/CockroachDB_Advanced.png" width="400" height="600" alt="CockroachDB Advanced">
+    <img src="screenshots/CockroachDB_Standard.png" width="300" height="500" alt="CockroachDB Standard">
 </kbd>
 
 #### Cloud Provider:
 AWS
 
 #### Multiple Regions
-- Paris, France
-- Tokyo, Japan
-- North Virginia, USA
+- North Virginia, USA (Set Primary Region)
+- Singapore
+- Ireland
 
 <kbd>
     <img src="screenshots/Cloud_Regions.png" width="600" alt="Cloud & Regions">
 </kbd>
 
 #### Hardware Specifications
-- Compute per node: 4 vCPU & 16 GB RAM
-- Storage per node: 35 GiB
+- Provisioned Capacity: 2 vCPU
 
 <kbd>
     <img src="screenshots/Capacity.png" width="600" alt="Capacity">
 </kbd>
 
-#### Security
-- Select "Do not include additional security features"
-
-<kbd>
-    <img src="screenshots/Security.png" width="600" alt="Security">
-</kbd>
-
 #### Accessing
 1. **Cluster Provisioning**:
-Wait 30 minutes for the cluster to provision
+Wait 5 minutes for the cluster to provision
 
 2. **SQL User Setup**:
    - Go to CockroachDB Console → SQL Users
@@ -87,13 +79,12 @@ Wait 30 minutes for the cluster to provision
 
 <br>
 
-3. **Network Configuration**:
-   - Go to CockroachDB Console → Networking
-   - Create a network name and add your current network
-   - Enable access for DB Console and CockroachDB Client
+3. **Connection Configuration**:
+   - If you use the SQL Shell (recommended) to execute SQL commands, then you can close this page
+   - If you connect to the database outside of SQL Shell, download CA Cert
 
 <kbd>
-    <img src="screenshots/Add_Network.png" width="500" alt="Add Network">
+    <img src="screenshots/Connection_Configuration.png" width="500" alt="Connection Configuration">
 </kbd>
 
 <br>
@@ -124,6 +115,7 @@ CREATE TABLE global_users (
     name STRING NOT NULL,
     email STRING UNIQUE NOT NULL,
     city STRING NOT NULL,
+    country STRING NOT NULL,
     created_at TIMESTAMP DEFAULT current_timestamp(),
     CONSTRAINT email_valid CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
@@ -133,6 +125,7 @@ CREATE TABLE regional_users (
     name STRING NOT NULL,
     email STRING UNIQUE NOT NULL,
     city STRING NOT NULL,
+    country STRING NOT NULL,
     created_at TIMESTAMP DEFAULT current_timestamp(),
     CONSTRAINT email_valid CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
@@ -142,65 +135,67 @@ CREATE TABLE regional_by_row_users (
     name STRING NOT NULL,
     email STRING UNIQUE NOT NULL,
     city STRING NOT NULL,
+    country STRING NOT NULL,
     created_at TIMESTAMP DEFAULT current_timestamp(),
     CONSTRAINT email_valid CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 ```
 
 4. Insert sample data:
+
 ```sql
-INSERT INTO global_users (name, email, city) VALUES
-    ('Michael Cohen', 'michael.cohen@gmail.com', 'Richmond'),
-    ('Sarah Rodriguez', 'sarah.r@outlook.com', 'Richmond'),
-    ('David Chang', 'david.chang@yahoo.com', 'Richmond'),
-    ('Rachel Goldman', 'rachel.goldman@gmail.com', 'Richmond'),
-    ('Anthony DiMarco', 'tony.dimarco@outlook.com', 'Richmond'),
-    ('Marie Dubois', 'marie.dubois@orange.fr', 'Paris'),
-    ('Jean-Pierre Moreau', 'jp.moreau@gmail.com', 'Paris'),
-    ('Amélie Laurent', 'amelie.laurent@free.fr', 'Paris'),
-    ('François Bernard', 'f.bernard@laposte.net', 'Paris'),
-    ('Sophie Lefebvre', 'sophie.lefebvre@orange.fr', 'Paris'),
-    ('Yuki Tanaka', 'tanaka.yuki@softbank.ne.jp', 'Tokyo'),
-    ('Hiroshi Sato', 'sato.hiroshi@docomo.ne.jp', 'Tokyo'),
-    ('Akiko Yamamoto', 'yamamoto.akiko@yahoo.co.jp', 'Tokyo'),
-    ('Kenji Nakamura', 'nakamura.k@gmail.com', 'Tokyo'),
-    ('Sakura Suzuki', 'suzuki.sakura@softbank.ne.jp', 'Tokyo');
+INSERT INTO global_users (name, email, city, country) VALUES
+    ('Michael Cohen', 'michael.cohen@gmail.com', 'Richmond', 'USA'),
+    ('Sarah Rodriguez', 'sarah.r@outlook.com', 'Richmond', 'USA'),
+    ('David Chang', 'david.chang@yahoo.com', 'Richmond', 'USA'),
+    ('Rachel Goldman', 'rachel.goldman@gmail.com', 'Richmond', 'USA'),
+    ('Anthony DiMarco', 'tony.dimarco@outlook.com', 'Richmond', 'USA'),
+    ('Michael Connor', 'siobhan.oconnor@gmail.com', 'Dublin', 'Ireland'),
+    ('Conor Murphy', 'conor.murphy@eircom.net', 'Dublin', 'Ireland'),
+    ('Aoife Kelly', 'aoife.kelly@live.ie', 'Dublin', 'Ireland'),
+    ('Liam Byrne', 'l.byrne@gmail.com', 'Dublin', 'Ireland'),
+    ('Niamh Brennan', 'niamh.brennan@outlook.com', 'Dublin', 'Ireland'),
+    ('Wei Lim', 'wei.lim@singtel.com', 'Singapore', 'Republic of Singapore'),
+    ('Jun Tan', 'jun.tan@starhub.sg', 'Singapore', 'Republic of Singapore'),
+    ('Mei Lin Chen', 'meichen@gmail.com', 'Singapore', 'Republic of Singapore'),
+    ('Raj Kumar', 'raj.kumar@singnet.com', 'Singapore', 'Republic of Singapore'),
+    ('Li Ying Wong', 'liying.wong@singtel.com', 'Singapore', 'Republic of Singapore');
 
 
-INSERT INTO regional_users (name, email, city) VALUES
-    ('Daniel Shapiro', 'dan.shapiro@gmail.com', 'Richmond'),
-    ('Emily Santos', 'emily.santos@outlook.com', 'Richmond'),
-    ('Michael Patel', 'mpatel@yahoo.com', 'Richmond'),
-    ('Rebecca Liu', 'rebecca.liu@gmail.com', 'Richmond'),
-    ('Christopher Burke', 'chris.burke@outlook.com', 'Richmond'),
-    ('Sofia Rossi', 'sofia.rossi@gmail.com', 'Richmond'),
-    ('James McDonnell', 'james.odonnell@yahoo.com', 'Richmond'),
-    ('Amanda Chen', 'amanda.chen@gmail.com', 'Richmond'),
-    ('Andrew Kim', 'akim@outlook.com', 'Richmond'),
-    ('Lauren McCarthy', 'lauren.mc@gmail.com', 'Richmond'),
-    ('David Cohen', 'dcohen@yahoo.com', 'Richmond'),
-    ('Victoria Nguyen', 'victoria.n@gmail.com', 'Richmond'),
-    ('Ryan Martinez', 'ryan.martinez@outlook.com', 'Richmond'),
-    ('Sarah Goldman', 'sgoldman@gmail.com', 'Richmond'),
-    ('Thomas Park', 'thomas.park@yahoo.com', 'Richmond');
+INSERT INTO regional_users (name, email, city, country) VALUES
+    ('Daniel Shapiro', 'dan.shapiro@gmail.com', 'Richmond', 'USA'),
+    ('Emily Santos', 'emily.santos@outlook.com', 'Richmond', 'USA'),
+    ('Michael Patel', 'mpatel@yahoo.com', 'Richmond', 'USA'),
+    ('Rebecca Liu', 'rebecca.liu@gmail.com', 'Richmond', 'USA'),
+    ('Christopher Burke', 'chris.burke@outlook.com', 'Richmond', 'USA'),
+    ('Sofia Rossi', 'sofia.rossi@gmail.com', 'Richmond', 'USA'),
+    ('James McDonnell', 'james.odonnell@yahoo.com', 'Richmond', 'USA'),
+    ('Amanda Chen', 'amanda.chen@gmail.com', 'Richmond', 'USA'),
+    ('Andrew Kim', 'akim@outlook.com', 'Richmond', 'USA'),
+    ('Lauren McCarthy', 'lauren.mc@gmail.com', 'Richmond', 'USA'),
+    ('David Cohen', 'dcohen@yahoo.com', 'Richmond', 'USA'),
+    ('Victoria Nguyen', 'victoria.n@gmail.com', 'Richmond', 'USA'),
+    ('Ryan Martinez', 'ryan.martinez@outlook.com', 'Richmond', 'USA'),
+    ('Sarah Goldman', 'sgoldman@gmail.com', 'Richmond', 'USA'),
+    ('Thomas Park', 'thomas.park@yahoo.com', 'Richmond', 'USA');
 
 
-INSERT INTO regional_by_row_users (name, email, city) VALUES
-    ('Alexandra Patel', 'alex.patel@gmail.com', 'Richmond'),
-    ('Marcus Washington', 'marcus.w@outlook.com', 'Richmond'),
-    ('Jennifer Kim', 'jennifer.kim@yahoo.com', 'Richmond'),
-    ('Brandon Hughes', 'brandon.oconnor@gmail.com', 'Richmond'),
-    ('Maya Santos', 'maya.santos@outlook.com', 'Richmond'),
-    ('Lucie Garnier', 'l.garnier@free.fr', 'Paris'),
-    ('Nicolas Petit', 'nicolas.petit@orange.fr', 'Paris'),
-    ('Camille Roux', 'camille.roux@laposte.net', 'Paris'),
-    ('Thomas Leroy', 't.leroy@gmail.com', 'Paris'),
-    ('Claire Dupont', 'claire.dupont@orange.fr', 'Paris'),
-    ('Riku Watanabe', 'watanabe.riku@docomo.ne.jp', 'Tokyo'),
-    ('Aoi Ishikawa', 'ishikawa.aoi@softbank.ne.jp', 'Tokyo'),
-    ('Takeshi Kimura', 'kimura.takeshi@yahoo.co.jp', 'Tokyo'),
-    ('Yumi Kobayashi', 'kobayashi.yumi@gmail.com', 'Tokyo'),
-    ('Kaito Matsuda', 'matsuda.kaito@docomo.ne.jp', 'Tokyo');
+INSERT INTO regional_by_row_users (name, email, city, country) VALUES
+    ('Alexandra Patel', 'alex.patel@gmail.com', 'Richmond', 'USA'),
+    ('Marcus Washington', 'marcus.w@outlook.com', 'Richmond', 'USA'),
+    ('Jennifer Kim', 'jennifer.kim@yahoo.com', 'Richmond', 'USA'),
+    ('Brandon Hughes', 'brandon.oconnor@gmail.com', 'Richmond', 'USA'),
+    ('Maya Santos', 'maya.santos@outlook.com', 'Richmond', 'USA'),
+    ('Declan Sullivan', 'declan.osullivan@gmail.com', 'Dublin', 'Ireland'),
+    ('Fiona Fitzgerald', 'fiona.fitz@eircom.net', 'Dublin', 'Ireland'),
+    ('Seamus Doyle', 'seamus.doyle@live.ie', 'Dublin', 'Ireland'),
+    ('Aisling Ryan', 'aisling.ryan@gmail.com', 'Dublin', 'Ireland'),
+    ('Eoin Walsh', 'eoin.walsh@outlook.com', 'Dublin', 'Ireland'),
+    ('Zi Yang Chua', 'ziyang.chua@singtel.com', 'Singapore', 'Republic of Singapore'),
+    ('Priya Sharma', 'priya.sharma@starhub.sg', 'Singapore', 'Republic of Singapore'),
+    ('Jason Lau', 'jason.lau@singnet.com', 'Singapore', 'Republic of Singapore'),
+    ('Grace Ng', 'grace.ng@gmail.com', 'Singapore', 'Republic of Singapore'),
+    ('Cheng Wei Loh', 'chengwei.loh@singtel.com', 'Singapore', 'Republic of Singapore');
 ```
 
 ## The Challenge 💻
