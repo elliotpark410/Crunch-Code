@@ -204,6 +204,7 @@ INSERT INTO regional_by_row_users (name, email, city, country) VALUES
 * Configure [GLOBAL](https://www.cockroachlabs.com/docs/stable/global-tables) locality in `global_users` tables
 * Implement [REGIONAL SURVIVABILITY](https://www.cockroachlabs.com/docs/stable/multiregion-survival-goals) for `users` database
 * Create [INDEXES](https://www.cockroachlabs.com/docs/stable/create-index) by city for query optimization
+* If you run into syntax issues, try running SQL commands one at a time 😉
 * Any other optimizations (optional)
 
 ## Submission Requirements
